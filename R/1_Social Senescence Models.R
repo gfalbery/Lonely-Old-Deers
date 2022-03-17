@@ -69,7 +69,7 @@ for(a in a:length(Resps)){
     #AllModels = T,
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -155,7 +155,7 @@ for(a in a:length(Resps)){
     Explanatory = Covar %>% c("Longevity"),
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -231,7 +231,7 @@ for(a in a:length(DensityCovar)){
     #AllModels = T,
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -297,7 +297,7 @@ DensityList %>% map("FinalModel") %>% Efxplot +
     #AllModels = T,
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -317,7 +317,7 @@ DensityList %>% map("FinalModel") %>% Efxplot +
     # AllModels = T,
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -337,7 +337,7 @@ DensityList %>% map("FinalModel") %>% Efxplot +
     #AllModels = T,
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -358,7 +358,7 @@ DensityList %>% map("FinalModel") %>% Efxplot +
     #AllModels = T,
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -429,7 +429,7 @@ for(a in a:length(Resps)){
     #AllModels = T,
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -517,7 +517,7 @@ for(a in a:length(Resps)){
     AllModels = T,
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -598,7 +598,7 @@ for(a in a:length(Resps)){
     AllModels = T,
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -694,7 +694,7 @@ for(a in a:length(Resps)){
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
     Clashes = ClashList,
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     BaseModel = T,
     AddSpatial = T, Coordinates = c("E", "N")
     
@@ -797,7 +797,7 @@ for(a in a:length(Resps)){
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
     Clashes = ClashList,
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     BaseModel = T,
     AddSpatial = T, Coordinates = c("E", "N")
     
@@ -882,7 +882,7 @@ for(a in a:length(Resps)){
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
     Clashes = ClashList,
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     BaseModel = T,
     AddSpatial = T, Coordinates = c("E", "N")
     
@@ -988,7 +988,7 @@ for(a in a:length(Resps)){
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
     Clashes = ClashList,
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     BaseModel = T,
     AddSpatial = T, Coordinates = c("E", "N")
     
@@ -1227,7 +1227,7 @@ IM1 <- INLAModelAdd(
     #AllModels = T,
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )
@@ -1295,7 +1295,7 @@ SelectiveList <- list()
     Explanatory = Covar %>% c("Longevity"),
     Random = c("Name", "fYear"), 
     RandomModel = rep("iid", 2),
-    Family = "gaussian", 
+    Family = "gaussian", Beep = F, 
     AddSpatial = T, Coordinates = c("E", "N")
     
   )

@@ -653,7 +653,7 @@ Censuses %>%
   summarise_at("GrazeType", ~.x %>% str_detect("^G.$") %>% Prev) %>% 
   ungroup -> GrazeDeer
 
-Deer %>% left_join(GrazeDeer, by = c("Name", "Year"))
+Deer %<>% left_join(GrazeDeer, by = c("Name", "Year"))
 
 
 # Done ####
