@@ -315,7 +315,7 @@ ggsave("Figures/Figure2.jpeg",
 ggsave("Figures/Figure2.pdf", 
        width = 220, height = 120, dpi = 600, units = "mm")
 
-# Figure 2: Spatial Effects ####
+# Figure 3: Spatial Effects ####
 
 SpatialModels2 <- readRDS("Output Files/SpatialModels1.rds")
 SpatialModels3 <- readRDS("Output Files/SpatialModels2.rds")
@@ -518,7 +518,8 @@ names(SpatialLabels2) <- names(SpatialLabels)
   list.files(pattern = "SelectiveSpatial", full.names = T) ->
   SpatialFiles
 
-SpatialFiles %>% map(readRDS) -> 
+SpatialFiles %>% 
+  readRDS -> 
   SelectiveSpatialList
 
 SelectiveSpatialList %>% 
@@ -526,7 +527,7 @@ SelectiveSpatialList %>%
   # map(function(a) list(a[[1]], a[[2]][[1]], a[[2]][[2]], a[[3]][[1]])) %>% 
   #map(Efxplot) %>% ArrangeCowplot() +
   #plot_layout(guides = "collect")
-  Unlist1 %>% 
+  Unlist1 %>%
   map(c("summary.fixed", as.data.frame, rownames_to_column)) %>% 
   bind_rows(.id = "Model") %>% 
   rename(Mean = mean, Lower = `0.025quant`, Upper = `0.975quant`) %>% 
@@ -537,7 +538,7 @@ SelectiveSpatialList %>%
 
 SelectiveSpatialDF %>% 
   filter(Response %in% SpatialRespsOrder) %>% 
-  filter(!Response == "LifetimeDistance") %>% 
+  # filter(!Response == "LifetimeDistance") %>% 
   mutate_at("Response", ~factor(.x, levels = SpatialRespsOrder)) %>% 
   filter(Model < 4 | !(Response %in% c("AnnualDensity", "UberDistance", "AnnualDistance"))) %>% 
   mutate_at("Model", ~factor(c("Base", "+ ID", "+ Longevity", "+ SPDE")[as.numeric(.x)], 
@@ -563,7 +564,7 @@ SelectiveSpatialDF %>%
 
 SelectiveSpatialPlot
 
-ggsave("Figures/SelectiveSpatialPlot.jpeg", units = "mm", width = 200, height = 200, dpi = 300)
+ggsave("Figures/FigureSI1.jpeg", units = "mm", width = 200, height = 200, dpi = 300)
 
 
 # Sup Fig 2: Combined spatial-social model effects ####
@@ -605,12 +606,18 @@ CombinedFXb <-
 
 CombinedFXa + CombinedFXb +
   plot_layout(guides = "collect") + 
-  plot_annotation(tag_levels = "A") +
-  ggsave("Figures/CombinedFX.jpeg", units = "mm", width = 200, height = 200, dpi = 300)
+  plot_annotation(tag_levels = "A")
+
+ggsave("Figures/FigureSI2.jpeg", units = "mm", width = 200, height = 200, dpi = 300)
+
+# Sup Fig 3: Combined effects 2 ####
+
+SocialModels3 <- readRDS("Output Files/SocialModels2.rds")
 
 EffectCompare1 <- 
   SocialModels3 %>% 
-  map(c(3)) %>% 
+  map(c(3)) %>%
+  # map("FinalModel")
   map("summary.fixed") %>% 
   map(rownames_to_column) %>% 
   bind_rows(.id = "Response") %>% 
@@ -660,7 +667,7 @@ EffectCompare2 <-
   geom_point(position = position_dodge(w = 0.5)) +
   coord_flip()
 
-(EffectCompare + labs(y = "Effect",
+(EffectCompare1 + labs(y = "Effect",
                       x = "",
                       colour = "Model set") + 
     scale_colour_manual(labels = c("Base", "+ Spatial behaviours"),
@@ -676,10 +683,11 @@ EffectCompare2 <-
                          values = c(AlberColours[[1]], 
                                     AlberColours[[2]]))) +
   plot_layout(guides = "collect") +
-  plot_annotation(tag_levels = "A") +
-  ggsave("Figures/CombinedFX2.jpeg", units = "mm", 
-         width = 220, height = 150, 
-         dpi = 300)
+  plot_annotation(tag_levels = "A")
+
+ggsave("Figures/FigureSI3.jpeg", units = "mm", 
+       width = 220, height = 150, 
+       dpi = 300)
 
 CombinedModels %>% map(c("dDIC", DICTableGet)) %>% 
   bind_rows(.id = "Response") %>% filter(!Round == 4) %>% 
@@ -821,65 +829,4 @@ DemographicModels1 %>%
                                    labels = RespLabels)
 
 ggsave("Figures/DeadFriends.jpeg", units = "mm", width = 120, height = 120, dpi = 300)
-
-#MultivariateModel <- readRDS("Output Files/MultivariateModel.rds")
-
-#MultivariateModel %>% Efxplot
-
-#PhenDF <- 
-#  MultivariateModel %>% PhenCorr(3) %>% rownames_to_column() %>% 
-#  mutate_at("rowname", ~str_remove_all(.x, "trait")) %>% 
-#  separate(rowname, "[.]", into = c("Var1", "Var2", "Name"))
-
-SpatialResps <- c("EarlyDistance", "HRA", "AnnualDensity", "GroupSize", "Degree", "Strength")
-
-# PhenDF %>% rename(Var1 = Var2, Var2 = Var1) %>%
-#  bind_rows(PhenDF) %>%
-#  mutate(Label = glue::glue("{Mode}\n({LCI},{UCI})")) %>%
-#  mutate_at(c("Var1", "Var2"), ~factor(.x, levels = SpatialResps)) %>%
-#  ggplot(aes(Var1, Var2, fill = Mode)) +
-#  geom_tile() +
-#  geom_text(aes(label = Label)) +
-#  scale_fill_continuous_diverging("Tropic") +
-#  coord_fixed()
-
-
-# Adding SPDE ####
-
-SelectiveSpatialList %>% 
-  Unlist1 %>% map(c("Spatial", "Model")) %>% 
-  map(c("summary.fixed", as.data.frame, rownames_to_column)) %>% 
-  bind_rows(.id = "Model") %>% 
-  rename(Mean = mean, Lower = `0.025quant`, Upper = `0.975quant`) %>% 
-  as.data.frame %>% filter(rowname %in% c("Age", "Longevity")) %>% 
-  rename(Response = Model) %>% 
-  mutate(Model = "5") %>% 
-  bind_rows(SelectiveSpatialDF, .) %>% 
-  filter(Response %in% SpatialRespsOrder) %>% 
-  filter(!Response == "LifetimeDistance") %>% 
-  mutate_at("Model", ~factor(c("Base", "+ ID", "+ Longevity", "+ SPDE")[as.numeric(.x)], levels = c("Base", "+ ID", "+ Longevity", "+ SPDE"))) %>% 
-  filter(!is.na(Model)) %>% 
-  filter(!(Model == "+ SPDE" & Response %in% c("AnnualDensity", "UberDistance"))) %>% 
-  mutate_at("Response", ~factor(.x, levels = SpatialRespsOrder)) %>% 
-  ggplot(aes(rowname, Mean, colour = Model, group = Model)) + 
-  facet_wrap(~Response, ncol = 2, 
-             scales = "free_y", labeller = as_labeller(SpatialLabels2)) +
-  geom_hline(yintercept = 0, lty = 2, alpha = 0.5) +
-  geom_point(colour = "black", size = 3,
-             position = position_dodge(w = 0.7)) +
-  geom_errorbar(aes(ymin = Lower, ymax = Upper),
-                position = position_dodge(w = 0.7),
-                width = 0.3) +
-  #geom_errorbar(colour = "black", aes(ymin = X0.025quant, ymax = X0.975quant),
-  #              position = position_dodge(w = 0.7),
-  #              width = 0.3) +
-  geom_point(position = position_dodge(w = 0.7), size = 2) +
-  labs(x = NULL, y = "Effect estimate") +
-  scale_colour_discrete_sequential(palette = AlberPalettes[[3]], nmax = 6, order = c(3:6)) +
-  theme(legend.position = "right") ->
-  SelectiveSpatialPlot
-
-SelectiveSpatialPlot + 
-  ggsave("Figures/SelectiveSpatialPlot.jpeg", units = "mm", width = 200, height = 200, dpi = 300)
-
 
