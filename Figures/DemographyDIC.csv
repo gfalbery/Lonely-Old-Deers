@@ -1,7 +1,9 @@
 "Response","Round","Variable","Delta","Kept"
-"GroupSize","1","DeadStrength",1.7191344935718,0
-"GroupSize","1","ShotStrength",8.81413947232431,0
-"Degree","1","DeadStrength",6.8417738032349,0
-"Degree","1","ShotStrength",16.7790347796872,0
-"Strength","1","DeadStrength",-0.0415855488372472,0
-"Strength","1","ShotStrength",10.3625340483586,0
+"GroupSize","1","**DeadStrength**",-9.49104101138346,1
+"GroupSize","1","ShotStrength",-2.00165379851205,0
+"GroupSize","2","ShotStrength",1.10662968239012,0
+"Degree","1","DeadStrength",16.4976586679031,0
+"Degree","1","ShotStrength",9.86833568696966,0
+"Strength","1","DeadStrength",9.75479929825997,0
+"Strength","1","**ShotStrength**",-6.13495084548958,1
+"Strength","2","DeadStrength",11.357005283453,0

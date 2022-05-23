@@ -8,23 +8,24 @@ rm(list = ls())
 
 # Putting it all together ####
 
-SeasonList <- list("Rut", "Spring", c("Spring", "Rut"))
+SeasonList <- list("Rut", "Spring", 
+                   c("Spring", "Rut"))
 
 j <- 3
 
 FocalSeason <- SeasonList[[j]]
 
-RepAge <- 6
+AgeConcentrate <- c(3:6)#[c(4)]
 
-#for(j in 1:3){
+RepAge <- 5
 
-FocalSeason <- SeasonList[[j]]
+# for(j in 2:3){
+
+# FocalSeason <- SeasonList[[j]]
 
 source("R/0b_Phenotyping.R")
 
-AgeConcentrate <- c(3:6)[c(4)]
-
-# for(RepAge in AgeConcentrate){
+# for(RepAge in AgeConcentrate[2:3]){
 
 print(paste0("Age: ", RepAge))
 
@@ -37,20 +38,20 @@ print(N)
 
 source("R/1_Social Senescence Models.R")
 
-if("Spring" %in% FocalSeason){
-  
-  source("R/2_Spring Survival Models.R")
-  
-}else{
-  
-  source("R/2_Rut Survival Models.R")
-  
-}
+# if("Spring" %in% FocalSeason){
+#   
+#   source("R/2_Spring Survival Models.R")
+#   
+# }else{
+#   
+#   source("R/2_Rut Survival Models.R")
+#   
+# }
 
-source("R/3_Social Senescence Figures.R")
+# source("R/3_Social Senescence Figures.R")
 
 file.rename("Output Files", paste0("Output Files_", paste0(FocalSeason, collapse = "_"), "_", RepAge))
-file.rename("Figures", paste0("Figures_", paste0(FocalSeason, collapse = "_"), "_", RepAge))
+# file.rename("Figures", paste0("Figures_", paste0(FocalSeason, collapse = "_"), "_", RepAge))
 
-}
-}
+#   }
+# }

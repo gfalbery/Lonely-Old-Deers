@@ -131,7 +131,7 @@ for(x in (FocalYears)){
     N <- with(Censuses2,tapply(Northing, Code, mean))
     
     Subdf <- data.frame(Year = x,
-                        Name = unique(Censuses2$Code),
+                        Name = sort(unique(Censuses2$Code)),
                         NObs = c(NObs),
                         GroupSize = Censuses2 %>% 
                           group_by(Code) %>% 

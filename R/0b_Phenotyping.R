@@ -643,7 +643,11 @@ DeadStrengths %>% full_join(ShotStrengths, by = c("Name", "Year")) %>%
   mutate_at("Year", ~.x + 3) %>% 
   left_join(Deer, ., by = c("Name", "Year"), suffix = c("", ".t3")) -> Deer
 
-# Grase Type ####
+# Dead degree ####
+
+
+
+# Graze Type ####
 
 Censuses %>% 
   ungroup %>%  
