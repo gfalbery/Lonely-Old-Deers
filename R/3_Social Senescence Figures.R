@@ -1,5 +1,5 @@
 
-# X_Figures ####
+# 3_Social Senescence Figures ####
 
 {
   
@@ -455,6 +455,8 @@ ggsave("Figures/Figure3.jpeg",
 ggsave("Figures/Figure3.pdf", 
        width = 220, height = 160, dpi = 600, units = "mm")
 
+# Outputting Table ####
+
 SpatialList[SpatialRespsOrder] %>% 
   map(c("FinalModel", "summary.fixed", data.frame, rownames_to_column)) %>% 
   bind_rows(.id = "Response") %>% 
@@ -523,10 +525,6 @@ SpatialFiles %>%
   SelectiveSpatialList
 
 SelectiveSpatialList %>% 
-  # Unlist1 %>% map("AllModels") %>% 
-  # map(function(a) list(a[[1]], a[[2]][[1]], a[[2]][[2]], a[[3]][[1]])) %>% 
-  #map(Efxplot) %>% ArrangeCowplot() +
-  #plot_layout(guides = "collect")
   Unlist1 %>%
   map(c("summary.fixed", as.data.frame, rownames_to_column)) %>% 
   bind_rows(.id = "Model") %>% 
@@ -565,7 +563,6 @@ SelectiveSpatialDF %>%
 SelectiveSpatialPlot
 
 ggsave("Figures/FigureSI1.jpeg", units = "mm", width = 200, height = 200, dpi = 300)
-
 
 # Sup Fig 2: Combined spatial-social model effects ####
 
@@ -668,8 +665,8 @@ EffectCompare2 <-
   coord_flip()
 
 (EffectCompare1 + labs(y = "Effect",
-                      x = "",
-                      colour = "Model set") + 
+                       x = "",
+                       colour = "Model set") + 
     scale_colour_manual(labels = c("Base", "+ Spatial behaviours"),
                         limits = c(1, 2),
                         values = c(AlberColours[[1]], 
@@ -763,70 +760,3 @@ Deer %>%
 ggsave("Figures/Figure SI4.jpeg", units = "mm", 
        height = 250, 
        width = 150)
-
-# Spatial distribution of spatial stuff ####
-
-SpatialRespsOrder[c(2, 4:6)] %>% 
-  map(~ggField(SpatialList[[.x]]$Spatial$Model, Mesh = SpatialList[[.x]]$Spatial$Mesh) +
-        labs(fill = SpatialLabels[[.x]]) +
-        scale_fill_discrete_sequential(palette = "Mint",
-                                       # rev = F,
-                                       labels = RespLabels)) %>% 
-  ArrangeCowplot() +
-  plot_layout(nrow = 2)
-
-ggField(SpatialList$UberDistance$Spatial$Model, 
-        Mesh = SpatialList$UberDistance$Spatial$Mesh) +
-  labs(fill = "Distance") +
-  scale_fill_discrete_sequential(palette = "Mint",
-                                 # rev = F,
-                                 labels = RespLabels)
-
-ggsave("Figures/DistanceField.jpeg", units = "mm", height = 350, width = 200)
-
-# Dead Friends Estimates ####
-
-DemographicModels1 <- readRDS("Output Files/DemographicModels1.rds")
-
-DemographyFX <- 
-  DemographicModels1 %>% 
-  map("FinalModel") %>% 
-  Efxplot(PointOutline = T,
-          ModelNames = Resps) +
-  #scale_colour_manual(values = c(AlberColours[[1]], AlberColours[[2]], AlberColours[[3]]))
-  scale_colour_discrete_sequential(palette = "Mint",
-                                   labels = RespLabels)
-
-DemographicModels1 %>% map(c("AllModels", 2, Efxplot)) %>% ArrangeCowplot()
-
-DemographicModels1 %>% 
-  map("dDIC") %>% map(DICTableGet) %>% 
-  bind_rows(.id = "Response") %>% 
-  write.csv("Figures/DemographyDIC.csv", row.names = F)
-
-# Combined effects plot ####
-
-DemographicModels1 %>% 
-  map("AllModels") %>% map(2) %>% 
-  map(~lapply(.x, function(a) a$summary.fixed)) %>% unlist(recursive = F) %>% 
-  map(~.x %>% as.data.frame %>% rownames_to_column) %>% 
-  bind_rows(.id = "Model") %>% 
-  group_by(Model) %>% mutate(N = 1:n()) %>% filter(N == max(N)) %>% 
-  separate(Model, "[.]", into = c("Response", "None", "Explanatory")) %>% 
-  rename(Lower = `0.025quant`, Upper = `0.975quant`, Mean = mean) %>% 
-  mutate_at("Explanatory", ~str_remove(.x, "Strength")) %>% 
-  mutate_at("Response", ~factor(.x, levels = c("GroupSize", "Degree", "Strength"))) %>% 
-  ggplot(aes(Explanatory, Mean, colour = Response, group = Response)) + 
-  geom_hline(yintercept = 0, lty = 2, alpha = 0.5) +
-  geom_errorbar(aes(ymin = Lower, ymax = Upper), 
-                width = 0.3,
-                position = position_dodge(w = 0.5)) +
-  labs(x = "Friends", y = "Estimate") +
-  geom_point(colour = "black", size = 3, position = position_dodge(w = 0.5)) +
-  geom_point(size = 2, position = position_dodge(w = 0.5)) +
-  scale_colour_discrete_sequential(palette = "Mint", nmax = 5, 
-                                   order = c(3:6-1),
-                                   labels = RespLabels)
-
-ggsave("Figures/DeadFriends.jpeg", units = "mm", width = 120, height = 120, dpi = 300)
-
